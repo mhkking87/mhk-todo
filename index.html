@@ -160,10 +160,15 @@
         .history-empty .he{font-size:2.2rem;margin-bottom:8px}
 
         /* Footer */
-        .footer{text-align:center;margin-top:35px;padding-bottom:20px;color:rgba(255,255,255,.12);font-size:.7rem;line-height:1.8}
+        .footer{text-align:center;margin-top:35px;padding-bottom:20px;color:rgba(255,255,255,.2);font-size:.75rem;line-height:1.8}
         .footer a{color:var(--accent-light);text-decoration:none;transition:color .3s}
         .footer a:hover{color:var(--accent)}
-        .footer .dev-line{margin-bottom:4px}
+        .footer .dev-line{margin-bottom:4px;font-weight:700;font-size:.85rem}
+
+        /* Telegram Logo Fixed */
+        .telegram-logo{position:fixed;bottom:20px;left:20px;z-index:900;cursor:pointer;transition:all .3s ease;text-decoration:none}
+        .telegram-logo:hover{transform:scale(1.1)}
+        .telegram-logo img{width:60px;height:60px;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.4);border:2px solid var(--accent)}
 
         /* Animations */
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -253,6 +258,11 @@
 </div>
 
 <div class="speech-bubble" id="speech-bubble"></div>
+
+<!-- Telegram Logo Fixed -->
+<a href="https://t.me/mohakkkkkkk" target="_blank" class="telegram-logo">
+    <img src="mohak-logo.jpg" alt="Mohak">
+</a>
 
 <script>
 /* ===== THEMES ===== */
