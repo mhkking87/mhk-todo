@@ -1,8 +1,8 @@
-const CACHE_NAME = 'todo-v2';
+// Version: v3 - updated to force cache refresh
+const CACHE_NAME = 'todo-v3';
 const ASSETS = [
     '/mhk-todo/',
-    '/mhk-todo/index.html',
-    '/mhk-todo/manifest.json'
+    '/mhk-todo/index.html'
 ];
 
 self.addEventListener('install', e => {
@@ -21,8 +21,15 @@ self.addEventListener('activate', e => {
     self.clients.claim();
 });
 
+// Network first, then cache — ensures fresh content
 self.addEventListener('fetch', e => {
     e.respondWith(
-        caches.match(e.request).then(r => r || fetch(e.request))
+        fetch(e.request)
+            .then(response => {
+                const clone = response.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+                return response;
+            })
+            .catch(() => caches.match(e.request))
     );
 });
