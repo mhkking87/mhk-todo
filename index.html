@@ -17,78 +17,71 @@
             --bg1:#0a0a1a;--bg2:#1a1040;--bg3:#0d1f3c;
             --accent:#6c5ce7;--accent-light:#a78bfa;--accent-glow:rgba(108,92,231,.35);
             --green:#34d399;--pink:#f472b6;--yellow:#fbbf24;
-            --card:rgba(255,255,255,.05);--card-border:rgba(255,255,255,.07);--card-hover:rgba(255,255,255,.08);
-            --text:#fff;--text-secondary:rgba(255,255,255,.5);--text-muted:rgba(255,255,255,.25);
+            --card:rgba(255,255,255,.05);--card-border:rgba(255,255,255,.07);
+            --text:#fff;--text2:rgba(255,255,255,.5);--text3:rgba(255,255,255,.25);
         }
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Vazirmatn',sans-serif;min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));display:flex;justify-content:center;padding:30px 16px;overflow-x:hidden;transition:background .6s ease}
         .container{width:100%;max-width:680px}
 
-        /* ===== THEME PICKER ===== */
-        .theme-picker{display:flex;gap:8px;justify-content:center;margin-bottom:20px;animation:fadeInUp .8s ease .1s both}
-        .theme-dot{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .3s ease;box-shadow:0 2px 10px rgba(0,0,0,.3)}
-        .theme-dot:hover{transform:scale(1.15)}
-        .theme-dot.active{border-color:rgba(255,255,255,.9);box-shadow:0 0 20px rgba(255,255,255,.2)}
-        .theme-dot[data-theme="purple"]{background:linear-gradient(135deg,#6c5ce7,#a78bfa)}
-        .theme-dot[data-theme="orange"]{background:linear-gradient(135deg,#f97316,#fb923c)}
-        .theme-dot[data-theme="bw"]{background:linear-gradient(135deg,#ffffff,#d4d4d4)}
-        .theme-dot[data-theme="turquoise"]{background:linear-gradient(135deg,#06b6d4,#22d3ee)}
+        /* ===== THEME PANEL ===== */
+        .theme-panel{position:fixed;top:0;left:0;right:0;z-index:999;transform:translateY(-100%);transition:transform .4s cubic-bezier(.22,1,.36,1);background:rgba(0,0,0,.6);backdrop-filter:blur(30px);border-bottom-left-radius:24px;border-bottom-right-radius:24px;padding:20px 20px 28px}
+        .theme-panel.open{transform:translateY(0)}
+        .theme-panel-title{color:var(--text);font-size:.9rem;font-weight:600;text-align:center;margin-bottom:14px}
+        .theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:400px;margin:0 auto}
+        .theme-card{border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .3s ease;position:relative;overflow:hidden}
+        .theme-card:hover{transform:translateY(-2px)}
+        .theme-card.active{border-color:rgba(255,255,255,.8);box-shadow:0 0 20px rgba(255,255,255,.15)}
+        .theme-card .tc-preview{width:100%;height:36px;border-radius:8px;margin-bottom:8px}
+        .theme-card .tc-name{font-size:.75rem;font-weight:600;color:var(--text)}
+
+        .theme-trigger{position:fixed;top:14px;left:14px;z-index:998;width:42px;height:42px;border-radius:12px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s ease;font-size:1.2rem}
+        .theme-trigger:hover{background:var(--accent);transform:scale(1.05)}
+        .theme-overlay{position:fixed;inset:0;z-index:997;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s ease}
+        .theme-overlay.open{opacity:1;pointer-events:auto}
 
         /* ===== WELCOME ===== */
         .welcome-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;animation:fadeIn .8s ease}
         .welcome-logo{font-size:5rem;margin-bottom:20px;animation:bounce 2s ease infinite}
         .welcome-title{color:var(--text);font-size:2rem;font-weight:900;text-align:center;margin-bottom:8px}
         .welcome-title span{background:linear-gradient(135deg,var(--accent-light),var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .welcome-sub{color:var(--text-secondary);font-size:.95rem;margin-bottom:40px;text-align:center}
+        .welcome-sub{color:var(--text2);font-size:.95rem;margin-bottom:40px;text-align:center}
         .welcome-form{width:100%;max-width:400px}
         .welcome-input{width:100%;padding:18px 22px;border:none;border-radius:16px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:1.1rem;outline:none;text-align:center;transition:all .3s ease;margin-bottom:16px}
-        .welcome-input::placeholder{color:var(--text-muted)}
+        .welcome-input::placeholder{color:var(--text3)}
         .welcome-input:focus{border-color:var(--accent-light);box-shadow:0 0 40px var(--accent-glow)}
 
         /* ===== 3D BUTTONS ===== */
-        .btn-3d{position:relative;padding:16px 28px;border:none;border-radius:16px;color:#fff;font-family:'Vazirmatn',sans-serif;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .15s ease;background:linear-gradient(135deg,var(--accent),var(--accent-light));box-shadow:0 6px 0 color-mix(in srgb,var(--accent) 70%,#000),0 8px 20px var(--accent-glow);text-shadow:0 1px 2px rgba(0,0,0,.2)}
-        .btn-3d:hover{transform:translateY(-2px);box-shadow:0 8px 0 color-mix(in srgb,var(--accent) 70%,#000),0 12px 30px var(--accent-glow)}
-        .btn-3d:active{transform:translateY(4px);box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 70%,#000),0 4px 10px var(--accent-glow)}
-
-        .btn-3d-green{background:linear-gradient(135deg,#34d399,#6ee7b7);box-shadow:0 6px 0 #1a9a6a,0 8px 20px rgba(52,211,153,.3);text-shadow:0 1px 2px rgba(0,0,0,.2)}
-        .btn-3d-green:hover{box-shadow:0 8px 0 #1a9a6a,0 12px 30px rgba(52,211,153,.4)}
-        .btn-3d-green:active{box-shadow:0 2px 0 #1a9a6a,0 4px 10px rgba(52,211,153,.2)}
-
-        .btn-3d-red{background:linear-gradient(135deg,#ef4444,#f87171);box-shadow:0 6px 0 #991b1b,0 8px 20px rgba(239,68,68,.3);text-shadow:0 1px 2px rgba(0,0,0,.2)}
-        .btn-3d-red:hover{box-shadow:0 8px 0 #991b1b,0 12px 30px rgba(239,68,68,.4)}
-        .btn-3d-red:active{box-shadow:0 2px 0 #991b1b,0 4px 10px rgba(239,68,68,.2)}
-
-        .btn-3d-sm{padding:10px 20px;font-size:.85rem;border-radius:12px;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 70%,#000),0 6px 15px var(--accent-glow)}
-        .btn-3d-sm:hover{box-shadow:0 6px 0 color-mix(in srgb,var(--accent) 70%,#000),0 8px 20px var(--accent-glow)}
-        .btn-3d-sm:active{box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 70%,#000),0 2px 8px var(--accent-glow);transform:translateY(3px)}
-
+        .btn3d{position:relative;padding:16px 28px;border:none;border-radius:16px;color:#fff;font-family:'Vazirmatn',sans-serif;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .15s ease;background:linear-gradient(135deg,var(--accent),var(--accent-light));box-shadow:0 6px 0 color-mix(in srgb,var(--accent) 70%,#000),0 8px 20px var(--accent-glow);text-shadow:0 1px 2px rgba(0,0,0,.2)}
+        .btn3d:hover{transform:translateY(-2px);box-shadow:0 8px 0 color-mix(in srgb,var(--accent) 70%,#000),0 12px 30px var(--accent-glow)}
+        .btn3d:active{transform:translateY(4px);box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 70%,#000),0 4px 10px var(--accent-glow)}
+        .btn3d-sm{padding:10px 20px;font-size:.85rem;border-radius:12px;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 70%,#000),0 6px 15px var(--accent-glow)}
+        .btn3d-red{background:linear-gradient(135deg,#ef4444,#f87171);box-shadow:0 6px 0 #991b1b,0 8px 20px rgba(239,68,68,.3)}
+        .btn3d-red:hover{box-shadow:0 8px 0 #991b1b,0 12px 30px rgba(239,68,68,.4)}
+        .btn3d-red:active{box-shadow:0 2px 0 #991b1b,0 4px 10px rgba(239,68,68,.2)}
         .hidden{display:none!important}
 
         /* ===== HEADER ===== */
         .header{text-align:center;margin-bottom:30px;animation:fadeInDown .8s ease}
         .header h1{color:var(--text);font-size:2rem;font-weight:900;margin-bottom:6px}
         .header h1 span{background:linear-gradient(135deg,var(--accent-light),var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .greeting{color:var(--text-secondary);font-size:.9rem;font-weight:300;min-height:24px;transition:all .5s ease}
-
-        /* ===== GLASS CARD ===== */
-        .glass{background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:18px;transition:all .3s ease}
-        .glass:hover{background:var(--card-hover)}
+        .greeting{color:var(--text2);font-size:.9rem;font-weight:300;min-height:24px}
 
         /* Stats */
         .stats{display:flex;gap:10px;margin-bottom:22px;animation:fadeInUp .8s ease .2s both}
-        .stat-card{flex:1;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:16px;padding:18px 12px;text-align:center;transition:all .3s ease;cursor:default}
+        .stat-card{flex:1;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:16px;padding:18px 12px;text-align:center;transition:all .3s ease}
         .stat-card:hover{background:var(--card-hover);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
         .stat-number{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:5px}
         .stat-card:nth-child(1) .stat-number{color:var(--accent-light)}
         .stat-card:nth-child(2) .stat-number{color:var(--green)}
         .stat-card:nth-child(3) .stat-number{color:var(--pink)}
         .stat-card:nth-child(4) .stat-number{color:var(--yellow)}
-        .stat-label{color:var(--text-muted);font-size:.72rem;font-weight:400}
+        .stat-label{color:var(--text3);font-size:.72rem}
 
         /* Progress */
         .progress-wrapper{margin-bottom:22px;animation:fadeInUp .8s ease .3s both}
         .progress-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-        .progress-text{color:var(--text-secondary);font-size:.82rem}
+        .progress-text{color:var(--text2);font-size:.82rem}
         .progress-percent{color:var(--accent-light);font-weight:700;font-size:.9rem}
         .progress-bar{width:100%;height:10px;background:rgba(255,255,255,.07);border-radius:12px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.2)}
         .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-light));border-radius:12px;transition:width .6s cubic-bezier(.22,1,.36,1);width:0%;box-shadow:0 0 10px var(--accent-glow)}
@@ -96,27 +89,27 @@
         /* Input */
         .input-area{display:flex;gap:10px;margin-bottom:22px;animation:fadeInUp .8s ease .4s both}
         .input-area input{flex:1;padding:16px 20px;border:none;border-radius:14px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:.95rem;outline:none;transition:all .3s ease}
-        .input-area input::placeholder{color:var(--text-muted)}
-        .input-area input:focus{border-color:var(--accent-light);background:rgba(255,255,255,.08);box-shadow:0 0 30px var(--accent-glow)}
-        .add-btn{padding:16px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;font-family:'Vazirmatn',sans-serif;font-size:1.4rem;font-weight:700;cursor:pointer;transition:all .15s ease;min-width:56px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 0 color-mix(in srgb,var(--accent) 70%,#000),0 7px 20px var(--accent-glow);text-shadow:0 1px 2px rgba(0,0,0,.2)}
+        .input-area input::placeholder{color:var(--text3)}
+        .input-area input:focus{border-color:var(--accent-light);box-shadow:0 0 30px var(--accent-glow)}
+        .add-btn{padding:16px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;font-size:1.4rem;font-weight:700;cursor:pointer;transition:all .15s ease;min-width:56px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 0 color-mix(in srgb,var(--accent) 70%,#000),0 7px 20px var(--accent-glow)}
         .add-btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 color-mix(in srgb,var(--accent) 70%,#000),0 10px 30px var(--accent-glow)}
         .add-btn:active{transform:translateY(4px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 70%,#000),0 3px 10px var(--accent-glow)}
 
         /* Speech */
-        .speech-bubble{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),var(--accent-light));backdrop-filter:blur(20px);color:#fff;padding:14px 26px;border-radius:22px;font-size:.9rem;font-weight:500;box-shadow:0 10px 40px var(--accent-glow);z-index:1000;opacity:0;transition:all .5s cubic-bezier(.22,1,.36,1);pointer-events:none;max-width:90%;text-align:center}
+        .speech-bubble{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;padding:14px 26px;border-radius:22px;font-size:.9rem;font-weight:500;box-shadow:0 10px 40px var(--accent-glow);z-index:1000;opacity:0;transition:all .5s cubic-bezier(.22,1,.36,1);pointer-events:none;max-width:90%;text-align:center}
         .speech-bubble.show{opacity:1;transform:translateX(-50%) translateY(-10px)}
 
         /* Filters */
         .filters{display:flex;gap:8px;margin-bottom:18px;animation:fadeInUp .8s ease .5s both;flex-wrap:wrap}
-        .filter-btn{padding:8px 18px;border:none;border-radius:11px;background:var(--card);border:1px solid var(--card-border);color:var(--text-secondary);font-family:'Vazirmatn',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s ease}
-        .filter-btn:hover{background:var(--card-hover);color:var(--text)}
+        .filter-btn{padding:8px 18px;border:none;border-radius:11px;background:var(--card);border:1px solid var(--card-border);color:var(--text2);font-family:'Vazirmatn',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s ease}
+        .filter-btn:hover{color:var(--text)}
         .filter-btn.active{background:rgba(108,92,231,.25);border-color:rgba(167,139,250,.35);color:var(--accent-light)}
 
         /* Tasks */
         .task-list{animation:fadeInUp .8s ease .6s both}
         .task-item{display:flex;align-items:center;gap:12px;padding:16px 18px;margin-bottom:10px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:16px;transition:all .4s cubic-bezier(.22,1,.36,1);animation:taskSlideIn .4s ease;position:relative;overflow:hidden}
-        .task-item::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent-light));border-radius:0 16px 16px 0;transition:all .3s ease}
-        .task-item:hover{background:var(--card-hover);transform:translateX(-4px) translateY(-2px);border-color:rgba(255,255,255,.1);box-shadow:0 8px 25px rgba(0,0,0,.15)}
+        .task-item::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent-light));border-radius:0 16px 16px 0}
+        .task-item:hover{transform:translateX(-4px) translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.15)}
         .task-item.completed::before{background:linear-gradient(180deg,var(--green),#6ee7b7)}
         .task-item.completed{background:rgba(52,211,153,.04)}
         .task-item.removing{animation:taskSlideOut .4s ease forwards}
@@ -128,21 +121,19 @@
         .checkbox input:checked+.checkmark{background:linear-gradient(135deg,var(--green),#6ee7b7);border-color:transparent;box-shadow:0 4px 15px rgba(52,211,153,.3)}
         .checkbox input:checked+.checkmark::after{opacity:1;transform:scale(1)}
 
-        .task-text{flex:1;color:rgba(255,255,255,.85);font-size:.92rem;font-weight:400;line-height:1.6;word-break:break-word}
-        .task-item.completed .task-text{text-decoration:line-through;color:var(--text-muted)}
-        .task-date{color:var(--text-muted);font-size:.68rem;margin-top:4px}
+        .task-text{flex:1;color:rgba(255,255,255,.85);font-size:.92rem;line-height:1.6;word-break:break-word}
+        .task-item.completed .task-text{text-decoration:line-through;color:var(--text3)}
+        .task-date{color:var(--text3);font-size:.68rem;margin-top:4px}
 
         .delete-btn{width:32px;height:32px;border:none;border-radius:8px;background:rgba(239,68,68,.08);color:rgba(239,68,68,.5);font-size:1.1rem;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0}
         .task-item:hover .delete-btn{opacity:1}
         .delete-btn:hover{background:rgba(239,68,68,.18);color:#ef4444;transform:scale(1.15)}
 
-        /* Empty */
         .empty-state{text-align:center;padding:50px 20px;animation:fadeIn .8s ease}
         .empty-state .emoji{font-size:3.5rem;margin-bottom:12px}
-        .empty-state h3{color:var(--text-secondary);font-weight:500;font-size:1.05rem;margin-bottom:6px}
-        .empty-state p{color:var(--text-muted);font-size:.82rem}
+        .empty-state h3{color:var(--text2);font-weight:500;font-size:1.05rem;margin-bottom:6px}
+        .empty-state p{color:var(--text3);font-size:.82rem}
 
-        /* Clear */
         .clear-area{text-align:center;margin-top:22px;animation:fadeInUp .8s ease .7s both}
 
         /* History */
@@ -169,7 +160,10 @@
         .history-empty .he{font-size:2.2rem;margin-bottom:8px}
 
         /* Footer */
-        .footer{text-align:center;margin-top:35px;padding-bottom:20px;color:rgba(255,255,255,.12);font-size:.7rem}
+        .footer{text-align:center;margin-top:35px;padding-bottom:20px;color:rgba(255,255,255,.12);font-size:.7rem;line-height:1.8}
+        .footer a{color:var(--accent-light);text-decoration:none;transition:color .3s}
+        .footer a:hover{color:var(--accent)}
+        .footer .dev-line{margin-bottom:4px}
 
         /* Animations */
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -180,38 +174,32 @@
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 
-        @media(max-width:500px){body{padding:16px 10px}.header h1{font-size:1.5rem}.input-area{flex-direction:column}.add-btn{width:100%;padding:14px}.stat-number{font-size:1.3rem}}
+        @media(max-width:500px){body{padding:16px 10px}.header h1{font-size:1.5rem}.input-area{flex-direction:column}.add-btn{width:100%;padding:14px}.stat-number{font-size:1.3rem}.theme-grid{grid-template-columns:repeat(2,1fr)}}
     </style>
 </head>
 <body>
 
+<!-- Theme Panel -->
+<div class="theme-overlay" id="theme-overlay"></div>
+<div class="theme-trigger" id="theme-trigger">🎨</div>
+<div class="theme-panel" id="theme-panel">
+    <div class="theme-panel-title">انتخاب تم</div>
+    <div class="theme-grid" id="theme-grid"></div>
+</div>
+
 <!-- WELCOME -->
 <div class="welcome-screen" id="welcome-screen">
-    <div class="theme-picker">
-        <div class="theme-dot" data-theme="purple" title="بنفش"></div>
-        <div class="theme-dot" data-theme="orange" title="نارنجی"></div>
-        <div class="theme-dot" data-theme="bw" title="سیاه سفید"></div>
-        <div class="theme-dot" data-theme="turquoise" title="فیروزه‌ای"></div>
-    </div>
     <div class="welcome-logo">📋</div>
     <div class="welcome-title">به <span>To Do List</span> خوش اومدی!</div>
     <div class="welcome-sub">اسمت رو بنویس تا شخصی‌سازی شه</div>
     <div class="welcome-form">
         <input type="text" class="welcome-input" id="name-input" placeholder="اسمت چیه؟" autofocus>
-        <button class="btn-3d" id="start-btn" style="width:100%">🚀 شروع کن!</button>
+        <button class="btn3d" id="start-btn" style="width:100%">🚀 شروع کن!</button>
     </div>
-    <div class="welcome-hint" style="color:rgba(255,255,255,.2);font-size:.75rem;margin-top:20px">توسعه دهنده: محمدحسین (mohak) ❤️</div>
 </div>
 
 <!-- MAIN APP -->
 <div class="container hidden" id="main-app">
-    <div class="theme-picker">
-        <div class="theme-dot" data-theme="purple" title="بنفش"></div>
-        <div class="theme-dot" data-theme="orange" title="نارنجی"></div>
-        <div class="theme-dot" data-theme="bw" title="سیاه سفید"></div>
-        <div class="theme-dot" data-theme="turquoise" title="فیروزه‌ای"></div>
-    </div>
-
     <div class="header">
         <h1>📋 To Do List — <span id="user-name-display"></span></h1>
         <div class="greeting" id="greeting"></div>
@@ -246,7 +234,7 @@
     <div class="task-list" id="task-list"></div>
 
     <div class="clear-area" id="clear-area" style="display:none">
-        <button class="btn-3d btn-3d-red btn-3d-sm" id="clear-done-btn">🗑️ پاک کردن انجام شده‌ها</button>
+        <button class="btn3d btn3d-sm btn3d-red" id="clear-done-btn">🗑️ پاک کردن انجام شده‌ها</button>
     </div>
 
     <div class="history-section">
@@ -258,37 +246,60 @@
         <div class="history-content" id="history-content"></div>
     </div>
 
-    <div class="footer">ساخته شده با ❤️ | توسعه دهنده: محمدحسین (mohak)</div>
+    <div class="footer">
+        <div class="dev-line">توسعه‌دهنده: <strong>محمدحسین (Mohak)</strong></div>
+        <div class="dev-line"> canal: <a href="https://t.me/mohakkkkkkk" target="_blank">t.me/mohakkkkkkk</a></div>
+    </div>
 </div>
 
 <div class="speech-bubble" id="speech-bubble"></div>
 
 <script>
-// ===== THEMES =====
+/* ===== THEMES ===== */
 const THEMES={
-    purple:{bg1:'#0a0a1a',bg2:'#1a1040',bg3:'#0d1f3c',accent:'#6c5ce7',accentLight:'#a78bfa',accentGlow:'rgba(108,92,231,.35)'},
-    orange:{bg1:'#1a0a00',bg2:'#2d1600',bg3:'#1a1000',accent:'#f97316',accentLight:'#fb923c',accentGlow:'rgba(249,115,22,.35)'},
-    bw:{bg1:'#0a0a0a',bg2:'#1a1a1a',bg3:'#0f0f0f',accent:'#ffffff',accentLight:'#d4d4d4',accentGlow:'rgba(255,255,255,.15)'},
-    turquoise:{bg1:'#0a1a1a',bg2:'#001f1f',bg3:'#0a2020',accent:'#06b6d4',accentLight:'#22d3ee',accentGlow:'rgba(6,182,212,.35)'}
+    purple:{name:'بنفش',bg1:'#0a0a1a',bg2:'#1a1040',bg3:'#0d1f3c',accent:'#6c5ce7',accentLight:'#a78bfa',accentGlow:'rgba(108,92,231,.35)',card:'rgba(255,255,255,.05)',cardBorder:'rgba(255,255,255,.07)',text:'#fff',text2:'rgba(255,255,255,.5)',text3:'rgba(255,255,255,.25)',preview:'linear-gradient(135deg,#0a0a1a,#6c5ce7)'},
+    orange:{name:'نارنجی',bg1:'#1a0a00',bg2:'#2d1600',bg3:'#1a1000',accent:'#f97316',accentLight:'#fb923c',accentGlow:'rgba(249,115,22,.35)',card:'rgba(255,255,255,.05)',cardBorder:'rgba(255,255,255,.07)',text:'#fff',text2:'rgba(255,255,255,.5)',text3:'rgba(255,255,255,.25)',preview:'linear-gradient(135deg,#1a0a00,#f97316)'},
+    classic:{name:'کلاسیک',bg1:'#0f0f0f',bg2:'#1a1a1a',bg3:'#121212',accent:'#d4af37',accentLight:'#e8c84a',accentGlow:'rgba(212,175,55,.3)',card:'rgba(255,255,255,.04)',cardBorder:'rgba(212,175,55,.12)',text:'#f5f0e8',text2:'rgba(245,240,232,.5)',text3:'rgba(245,240,232,.25)',preview:'linear-gradient(135deg,#0f0f0f,#d4af37)'},
+    turquoise:{name:'فیروزه‌ای',bg1:'#0a1a1a',bg2:'#001f1f',bg3:'#0a2020',accent:'#06b6d4',accentLight:'#22d3ee',accentGlow:'rgba(6,182,212,.35)',card:'rgba(255,255,255,.05)',cardBorder:'rgba(255,255,255,.07)',text:'#fff',text2:'rgba(255,255,255,.5)',text3:'rgba(255,255,255,.25)',preview:'linear-gradient(135deg,#0a1a1a,#06b6d4)'},
+    pink:{name:'صورتی',bg1:'#1a0a14',bg2:'#2d1025',bg3:'#1a0f1e',accent:'#ec4899',accentLight:'#f472b6',accentGlow:'rgba(236,72,153,.35)',card:'rgba(255,255,255,.05)',cardBorder:'rgba(255,255,255,.07)',text:'#fff',text2:'rgba(255,255,255,.5)',text3:'rgba(255,255,255,.25)',preview:'linear-gradient(135deg,#1a0a14,#ec4899)'},
+    mint:{name:'سبز روشن',bg1:'#0a1a12',bg2:'#0d2618',bg3:'#0a1f10',accent:'#10b981',accentLight:'#34d399',accentGlow:'rgba(16,185,129,.35)',card:'rgba(255,255,255,.05)',cardBorder:'rgba(255,255,255,.07)',text:'#fff',text2:'rgba(255,255,255,.5)',text3:'rgba(255,255,255,.25)',preview:'linear-gradient(135deg,#0a1a12,#10b981)'}
 };
+
+const THEME_KEY='mhk-theme';
+const currentTheme=localStorage.getItem(THEME_KEY)||'purple';
 
 function applyTheme(name){
     const t=THEMES[name];if(!t)return;
     const r=document.documentElement.style;
     r.setProperty('--bg1',t.bg1);r.setProperty('--bg2',t.bg2);r.setProperty('--bg3',t.bg3);
     r.setProperty('--accent',t.accent);r.setProperty('--accent-light',t.accentLight);r.setProperty('--accent-glow',t.accentGlow);
+    r.setProperty('--card',t.card);r.setProperty('--card-border',t.cardBorder);
+    r.setProperty('--text',t.text);r.setProperty('--text2',t.text2);r.setProperty('--text3',t.text3);
     document.body.style.background=`linear-gradient(135deg,${t.bg1},${t.bg2},${t.bg3})`;
     document.querySelector('meta[name="theme-color"]').content=t.accent;
-    document.querySelectorAll('.theme-dot').forEach(d=>{d.classList.toggle('active',d.dataset.theme===name)});
-    localStorage.setItem('mhk-theme',name);
+    document.querySelectorAll('.theme-card').forEach(c=>{c.classList.toggle('active',c.dataset.theme===name)});
+    localStorage.setItem(THEME_KEY,name);
 }
 
-document.querySelectorAll('.theme-dot').forEach(d=>{
-    d.addEventListener('click',()=>applyTheme(d.dataset.theme));
+// Build theme grid
+const themeGrid=document.getElementById('theme-grid');
+Object.entries(THEMES).forEach(([key,t])=>{
+    const card=document.createElement('div');
+    card.className='theme-card'+(key===currentTheme?' active':'');
+    card.dataset.theme=key;
+    card.innerHTML=`<div class="tc-preview" style="background:${t.preview}"></div><div class="tc-name">${t.name}</div>`;
+    card.addEventListener('click',()=>applyTheme(key));
+    themeGrid.appendChild(card);
 });
-applyTheme(localStorage.getItem('mhk-theme')||'purple');
+applyTheme(currentTheme);
 
-// ===== CONFIG =====
+// Theme panel toggle
+const themePanel=document.getElementById('theme-panel'),themeOverlay=document.getElementById('theme-overlay'),themeTrigger=document.getElementById('theme-trigger');
+function togglePanel(){themePanel.classList.toggle('open');themeOverlay.classList.toggle('open')}
+themeTrigger.addEventListener('click',togglePanel);
+themeOverlay.addEventListener('click',togglePanel);
+
+/* ===== CONFIG ===== */
 const TASKS_KEY='mhk-tasks',USER_KEY='mhk-user',HISTORY_KEY='mhk-history',STREAK_KEY='mhk-streak';
 let userName=localStorage.getItem(USER_KEY)||'';
 let tasks=JSON.parse(localStorage.getItem(TASKS_KEY)||'[]');
@@ -303,50 +314,49 @@ const speechBubble=document.getElementById('speech-bubble');
 const historyHeader=document.getElementById('history-header'),historyContent=document.getElementById('history-content');
 const historyBadge=document.getElementById('history-badge'),historyToggle=document.getElementById('history-toggle');
 
-// ===== WELCOME =====
 if(userName){welcomeScreen.classList.add('hidden');mainApp.classList.remove('hidden');initApp()}
 else{startBtn.addEventListener('click',()=>{const n=nameInput.value.trim();if(!n){nameInput.style.animation='shake .4s ease';setTimeout(()=>nameInput.style.animation='',400);return}userName=n;localStorage.setItem(USER_KEY,n);welcomeScreen.style.opacity='0';welcomeScreen.style.transition='opacity .5s ease';setTimeout(()=>{welcomeScreen.classList.add('hidden');mainApp.classList.remove('hidden');initApp()},500)});nameInput.addEventListener('keydown',e=>{if(e.key==='Enter')startBtn.click()})}
 
-// ===== SPEECH =====
-const addTaskPhrases=n=>[`آفرین ${n}! یکی اضافه شد! 💪`,`عالیه ${n}! بریم سراغ بعدی! 🚀`,`${n} جان، حسابی مشغولی! 🔥`,`اوکی ${n}! ثبت شد ✅`,`بزن بریم ${n}! 💎`,`خوبه ${n}! ادامه بده! ⭐`,`ثبت شد ${n}! کار درسته! 🎯`];
-const completePhrases=n=>[`آفرین ${n}! یکی تموم شد! 🎉`,`خوشگل ${n}! ردش کن! ✅`,`${n} حرفه‌ای! تمیز تمیز! 💯`,`عالیه ${n}! یکی کم شد! 🏆`,`${n} بیا جلو! 💥`,`تمومش کردی ${n}! دمت گرم! 🤝`,`ایول ${n}! رفت تو تاریخچه! 📜`,`${n} سنگ تموم گذاشت! 🪨✨`,`یه قدم جلوتر ${n}! 🏃‍♂️`,`${n} پیشرفت واقعیه! 📈`];
-const firstTaskPhrases=n=>[`اولین کارت رو اضافه کردی ${n}! شروع خوبیه! 🌟`,`بزن بریم ${n}! اولی ثبت شد! 🎬`];
-const allDonePhrases=n=>[`همه تموم شد ${n}! آفرین بهت! 🏅`,`کارهات تموم شد ${n}! حالا استراحت کن! ☕`,`${n} قهرمان امروزی! 🦸‍♂️`,`تموم شد ${n}! فردا دوباره! 🌅`];
+/* ===== SPEECH ===== */
+const addP=n=>[`آفرین ${n}! یکی اضافه شد! 💪`,`عالیه ${n}! بریم سراغ بعدی! 🚀`,`${n} جان، حسابی مشغولی! 🔥`,`اوکی ${n}! ثبت شد ✅`,`بزن بریم ${n}! 💎`,`خوبه ${n}! ادامه بده! ⭐`,`ثبت شد ${n}! کار درسته! 🎯`];
+const doneP=n=>[`آفرین ${n}! یکی تموم شد! 🎉`,`خوشگل ${n}! ردش کن! ✅`,`${n} حرفه‌ای! تمیز تمیز! 💯`,`عالیه ${n}! یکی کم شد! 🏆`,`${n} بیا جلو! 💥`,`تمومش کردی ${n}! دمت گرم! 🤝`,`ایول ${n}! رفت تو تاریخچه! 📜`];
+const firstP=n=>[`اولین کارت رو اضافه کردی ${n}! شروع خوبیه! 🌟`,`بزن بریم ${n}! اولی ثبت شد! 🎬`];
+const allDoneP=n=>[`همه تموم شد ${n}! آفرین بهت! 🏅`,`کارهات تموم شد ${n}! استراحت کن! ☕`,`${n} قهرمان امروزی! 🦸‍♂️`];
 
 function say(text){speechBubble.textContent=text;speechBubble.classList.add('show');clearTimeout(speechBubble._timer);speechBubble._timer=setTimeout(()=>speechBubble.classList.remove('show'),3000)}
-function randomFrom(a){return a[Math.floor(Math.random()*a.length)]}
+function rf(a){return a[Math.floor(Math.random()*a.length)]}
 
-// ===== DATE =====
+/* ===== DATE ===== */
 function dateKey(ts){const d=new Date(ts);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function todayKey(){return dateKey(Date.now())}
 function formatTime(ts){return new Date(ts).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})}
 
-// ===== GREETING =====
+/* ===== GREETING ===== */
 function setGreeting(){const h=new Date().getHours();let g='';if(h>=5&&h<12)g='☀️ صبح بخیر';else if(h>=12&&h<17)g='🌤️ عصر بخیر';else if(h>=17&&h<21)g='🌅 غروب بخیر';else g='🌙 شب بخیر';greetingEl.textContent=`${g} ${userName}! امروز چه کارایی داری؟`}
 
-// ===== STREAK =====
+/* ===== STREAK ===== */
 function calcStreak(){const s=JSON.parse(localStorage.getItem(STREAK_KEY)||'{"last":"","count":0}');const tk=todayKey();if(s.last===tk)return s.count;const yd=dateKey(Date.now()-86400000);if(s.last===yd)return s.count;return 0}
 function updateStreak(){const s=JSON.parse(localStorage.getItem(STREAK_KEY)||'{"last":"","count":0}');const tk=todayKey();const dt=tasks.filter(t=>t.done&&t.completedAt&&dateKey(t.completedAt)===tk).length;const tt=tasks.filter(t=>t.createdAt&&dateKey(t.createdAt)===tk).length;if(dt>0&&dt===tt&&tt>0&&s.last!==tk){const yd=dateKey(Date.now()-86400000);s.count=s.last===yd?s.count+1:1;s.last=tk;localStorage.setItem(STREAK_KEY,JSON.stringify(s))}}
 
-// ===== HISTORY =====
+/* ===== HISTORY ===== */
 function saveToHistory(task){history.unshift({text:task.text,completedAt:task.completedAt||Date.now(),createdAt:task.createdAt});if(history.length>200)history=history.slice(0,200);localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}
 function cleanOldHistory(){const c=Date.now()-(10*24*60*60*1000);history=history.filter(h=>h.completedAt>c);localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}
 function renderHistory(){cleanOldHistory();const c=Date.now()-(10*24*60*60*1000);const recent=history.filter(h=>h.completedAt>c);historyBadge.textContent=recent.length+' کار';if(recent.length===0){historyContent.innerHTML='<div class="history-empty"><div class="he">📭</div>هنوز کار تموم شده‌ای نداری!</div>';return}const g={};recent.forEach(h=>{const dk=dateKey(h.completedAt);if(!g[dk])g[dk]=[];g[dk].push(h)});let html='';Object.keys(g).sort((a,b)=>b.localeCompare(a)).forEach(dk=>{const items=g[dk];const d=new Date(dk+'T12:00:00');html+=`<div class="history-day"><div class="history-day-label"><span class="day-name">${d.toLocaleDateString('fa-IR',{weekday:'long'})}</span><span class="day-date">${d.toLocaleDateString('fa-IR',{month:'short',day:'numeric'})}</span><span class="day-count">${items.length} کار</span></div>`;items.forEach(h=>{html+=`<div class="history-item"><div class="h-check">✓</div><div class="h-text">${h.text}</div><div class="h-time">${formatTime(h.completedAt)}</div></div>`});html+='</div>'});historyContent.innerHTML=html}
 historyHeader.addEventListener('click',()=>{historyContent.classList.toggle('open');historyToggle.classList.toggle('open')});
 
-// ===== STATS =====
+/* ===== STATS =====
 function updateStats(){document.getElementById('total-count').textContent=tasks.length;document.getElementById('done-count').textContent=tasks.filter(t=>t.done).length;document.getElementById('pending-count').textContent=tasks.filter(t=>!t.done).length;document.getElementById('streak-count').textContent=calcStreak();const t=tasks.length,d=tasks.filter(t=>t.done).length,p=t===0?0:Math.round((d/t)*100);document.getElementById('progress-percent').textContent=p+'%';document.getElementById('progress-fill').style.width=p+'%';document.getElementById('clear-area').style.display=d>0?'block':'none';renderHistory()}
 
-// ===== TASKS =====
+/* ===== TASKS ===== */
 function saveTasks(){localStorage.setItem(TASKS_KEY,JSON.stringify(tasks))}
 function formatTaskDate(ts){const d=new Date(ts),now=new Date(),diff=now-d;if(diff<60000)return'همین الان';if(diff<3600000)return Math.floor(diff/60000)+' دقیقه پیش';if(diff<86400000)return Math.floor(diff/3600000)+' ساعت پیش';return d.toLocaleDateString('fa-IR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}
-function addTask(){const text=taskInput.value.trim();if(!text){taskInput.style.animation='shake .4s ease';setTimeout(()=>taskInput.style.animation='',400);return}tasks.unshift({id:Date.now(),text,done:false,createdAt:Date.now()});saveTasks();renderTasks();taskInput.value='';taskInput.focus();if(tasks.length===1)say(randomFrom(firstTaskPhrases(userName)));else say(randomFrom(addTaskPhrases(userName)))}
-function toggleTask(id){const task=tasks.find(t=>t.id===id);if(!task)return;if(!task.done){task.done=true;task.completedAt=Date.now();saveToHistory(task);say(randomFrom(completePhrases(userName)));if(tasks.every(t=>t.done))setTimeout(()=>say(randomFrom(allDonePhrases(userName))),1500)}else{task.done=false;delete task.completedAt}saveTasks();updateStreak();renderTasks()}
+function addTask(){const text=taskInput.value.trim();if(!text){taskInput.style.animation='shake .4s ease';setTimeout(()=>taskInput.style.animation='',400);return}tasks.unshift({id:Date.now(),text,done:false,createdAt:Date.now()});saveTasks();renderTasks();taskInput.value='';taskInput.focus();if(tasks.length===1)say(rf(firstP(userName)));else say(rf(addP(userName)))}
+function toggleTask(id){const task=tasks.find(t=>t.id===id);if(!task)return;if(!task.done){task.done=true;task.completedAt=Date.now();saveToHistory(task);say(rf(doneP(userName)));if(tasks.every(t=>t.done))setTimeout(()=>say(rf(allDoneP(userName))),1500)}else{task.done=false;delete task.completedAt}saveTasks();updateStreak();renderTasks()}
 function deleteTask(id){const el=document.querySelector(`[data-id="${id}"]`);if(el){el.classList.add('removing');setTimeout(()=>{tasks=tasks.filter(t=>t.id!==id);saveTasks();renderTasks()},400)}}
-function clearDone(){const els=document.querySelectorAll('.task-item.completed');els.forEach((el,i)=>setTimeout(()=>el.classList.add('removing'),i*50));setTimeout(()=>{tasks=tasks.filter(t=>!t.done);saveTasks();renderTasks();say('🧹 تمیز شد! حسابی مرتب شدی!')},els.length*50+400)}
+function clearDone(){const els=document.querySelectorAll('.task-item.completed');els.forEach((el,i)=>setTimeout(()=>el.classList.add('removing'),i*50));setTimeout(()=>{tasks=tasks.filter(t=>!t.done);saveTasks();renderTasks();say('🧹 تمیز شد!')},els.length*50+400)}
 function renderTasks(){let f=tasks;if(currentFilter==='done')f=tasks.filter(t=>t.done);if(currentFilter==='pending')f=tasks.filter(t=>!t.done);if(f.length===0){const m={all:['📝','هنوز کاری نداری!','کارت رو اضافه کن...'],done:['🎉','هنوز هیچ کاری تموم نکردی!','بجنب!'],pending:['✨','همه تموم شده!','آفرین، استراحت کن!']};const[e,t,d]=m[currentFilter];taskList.innerHTML=`<div class="empty-state"><div class="emoji">${e}</div><h3>${t}</h3><p>${d}</p></div>`}else{taskList.innerHTML=f.map(task=>`<div class="task-item ${task.done?'completed':''}" data-id="${task.id}"><label class="checkbox"><input type="checkbox" ${task.done?'checked':''} onchange="toggleTask(${task.id})"><div class="checkmark"></div></label><div style="flex:1"><div class="task-text">${task.text}</div><div class="task-date">${formatTaskDate(task.createdAt)}</div></div><button class="delete-btn" onclick="deleteTask(${task.id})" title="حذف">✕</button></div>`).join('')}updateStats()}
 
-function initApp(){document.getElementById('user-name-display').textContent=userName;document.getElementById('footer-name').textContent=userName;setGreeting();renderTasks();setTimeout(()=>say(`${new Date().getHours()>=17?'🌙 شب':'☀️ روز'} بخیر ${userName}! چه کارایی داری امروز؟`),1000)}
+function initApp(){document.getElementById('user-name-display').textContent=userName;setGreeting();renderTasks();setTimeout(()=>say(`${new Date().getHours()>=17?'🌙 شب':'☀️ روز'} بخیر ${userName}!`),1000)}
 
 addBtn.addEventListener('click',addTask);taskInput.addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
 document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;renderTasks()})});
